@@ -1,4 +1,7 @@
 export default function TradeBlotter({ trades }) {
+  const totalQuantity = trades.reduce((total, trade) => {
+    return total + Number(trade.quantity);
+  }, 0);
   return (
     <section className="panel trade-blotter">
       <header className="panel-header panel-header-row">
@@ -7,7 +10,14 @@ export default function TradeBlotter({ trades }) {
           <h2 className="panel-title">Trade blotter</h2>
         </div>
         <span className="panel-count">
-          {trades.length} {trades.length > 1 ? "trades" : "trade"}
+          {" "}
+          Total trades:
+          {trades.length} {trades.length > 1 ? " trades" : " trade"}
+        </span>
+        <span className="panel-count">
+          {" "}
+          Total quantity: {totalQuantity}{" "}
+          {totalQuantity > 1 ? "contracts" : "contract"}
         </span>
       </header>
 
@@ -34,9 +44,7 @@ export default function TradeBlotter({ trades }) {
             </thead>
             <tbody>
               {trades.map((trade) => (
-                <tr
-                  key={trade.id}
-                >
+                <tr key={trade.id}>
                   <td className="pair-cell">{trade.currencyPair}</td>
                   <td>{trade.optionType}</td>
                   <td className="numeric-cell">{trade.strikePrice}</td>
